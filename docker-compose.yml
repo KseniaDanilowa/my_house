@@ -1,0 +1,21 @@
+version: "3.3"
+
+services:
+  my_house:
+    build: ./
+    command: ./my_house
+    ports:
+      - 8000:8000
+    depends_on:
+      - db
+    environment:
+      - DB_PASSWORD:123
+  db:
+    restart: always
+    image: postgres:15
+    volumes:
+      - ./.database/postgres/data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD:example
+    ports:
+      - 5436:5432

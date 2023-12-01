@@ -14,7 +14,7 @@ func PrintHouseInfo() {
 	familyMembers := family.CreateFamily()
 	params := houseParams.CreateHouseParams()
 
-	fmt.Println("	House Params(in m^2):")
+	fmt.Println("	House Params:")
 	fmt.Printf("Width: %d, Height: %d, Length: %d, Rooms Count: %d\n", params.Width, params.Height, params.Length, params.RoomsCount)
 
 	fmt.Println("	Appliances:")

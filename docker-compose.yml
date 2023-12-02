@@ -1,4 +1,4 @@
-version: "3.3"
+version: '3.3'
 
 services:
   my_house:
@@ -9,13 +9,23 @@ services:
     depends_on:
       - db
     environment:
-      - DB_PASSWORD:123
+      - DB_NAME=test
+      - DB_USER=user
+      - DB_PASSWORD=123
   db:
     restart: always
-    image: postgres:15
+    image: postgres:16-alpine
     volumes:
       - ./.database/postgres/data:/var/lib/postgresql/data
     environment:
-      - POSTGRES_PASSWORD:example
+      POSTGRES_DB: "house_db"
+      POSTGRES_USER: "my_house_project"
+      POSTGRES_PASSWORD: 123
     ports:
-      - 5436:5432
+      - "5436:5432"
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080

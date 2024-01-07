@@ -1,6 +1,6 @@
 # "House" project describes go-structures and work with database
 _________
-**Authors**
+**Authors:**
 
 Ksenia Danilova
 

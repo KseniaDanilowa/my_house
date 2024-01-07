@@ -1,4 +1,4 @@
-# "House" project describes go-structures and work with database
+# "House" project describes go-structures and work with database in GO language
 _________
 **Authors:**
 

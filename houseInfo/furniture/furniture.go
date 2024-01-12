@@ -29,29 +29,38 @@ func CreateFurniture() []Furniture {
 
 func InsertInFurniture(furniture []Furniture, conn pgx.Conn) {
 	for index := 0; index < len(furniture); index++ {
-		bd, err := conn.Begin(context.Background())
-		if err != nil {
-			fmt.Println(err)
+		bd, beginErr := conn.Begin(context.Background())
+		if beginErr != nil {
+			fmt.Println(beginErr)
+			return
 		}
 		defer bd.Rollback(context.Background())
-		bd.Exec(context.Background(), "insert into furniture(name, width, length, height, material, color) "+
+		_, execErr := bd.Exec(context.Background(), "insert into furniture(name, width, length, height, material, color) "+
 			"values ($1, $2, $3, $4, $5, $6)", furniture[index].Name, furniture[index].Width, furniture[index].Length, furniture[index].Height, furniture[index].Material, furniture[index].Color)
-		bd.Commit(context.Background())
+		if execErr != nil {
+			fmt.Println(execErr)
+			return
+		}
+		err2 := bd.Commit(context.Background())
+		if err2 != nil {
+			fmt.Println(err2)
+			return
+		}
 	}
 }
 
 func ShowFurniture(conn pgx.Conn) {
-	var name, width, lenth, height, material, color string
+	var name, width, length, height, material, color string
 	rows, err := conn.Query(context.Background(), "select name, width, length, height, material, color from furniture")
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "QueryRow failed: %v\n", err)
 		os.Exit(1)
 	} else {
-		print("\n         NAME\n" +
-			"        ______________________________________________________________________\n")
+		print("\n              NAME         WIDTH      LENGTH     HEIGHT      MATERIAL     COLOR\n" +
+			"        _________________________________________________________________________\n")
 		for rows.Next() {
-			rows.Scan(&name, &width, &lenth, &height, &material, &color)
-			fmt.Printf("%12s %12s %12s %12s %12s %12s\n", name, width, lenth, height, material, color)
+			rows.Scan(&name, &width, &length, &height, &material, &color)
+			fmt.Printf("%20s %10s %10s %10s %12s %12s\n", name, width, length, height, material, color)
 		}
 	}
 }

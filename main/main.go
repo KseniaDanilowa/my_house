@@ -1,9 +1,10 @@
 package main
 
-import . "my_house/houseInfo/PrintHouseFromDb"
+import (
+	. "my_house/PrintHouseFromDb"
+)
 
 func main() {
+	//InsertHouseData.InsertData()
 	PrintHouse()
-	//printHouse.PrintHouseInfo()
-
 }

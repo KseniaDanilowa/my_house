@@ -13,7 +13,7 @@ type Appliance struct {
 	Power int
 }
 
-func CreateAppliances() []Appliance {
+func CreateAppliance() []Appliance {
 	appliances := []Appliance{
 		{Name: "Refrigerator", Brand: "Samsung", Power: 200},
 		{Name: "Microwave", Brand: "LG", Power: 1000},

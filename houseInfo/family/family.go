@@ -22,7 +22,7 @@ func CreateFamily() []Family {
 	return familyMembers
 }
 
-func InsertInFamily(member Family, conn *pgx.Conn) {
+func InsertInFamily(member Family, conn pgx.Conn) {
 	bd, err := conn.Begin(context.Background())
 	if err != nil {
 		fmt.Println(err)
@@ -32,7 +32,7 @@ func InsertInFamily(member Family, conn *pgx.Conn) {
 	bd.Commit(context.Background())
 }
 
-func ShowFamily(conn *pgx.Conn) {
+func ShowFamily(conn pgx.Conn) {
 	var name, id, age, room string
 	rows, err := conn.Query(context.Background(), "select id, name, age, room from family_members")
 	if err != nil {

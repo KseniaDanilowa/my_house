@@ -11,5 +11,6 @@ func PrintHouse() {
 	ctx := context.Background()
 	conn := connection.Make_conn(ctx)
 	family.ShowFamily(conn)
-	furniture.InsertInFurniture(furniture.CreateFurniture(), conn)
+	furniture.ShowFurniture(conn)
+
 }

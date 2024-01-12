@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/jackc/pgx/v5"
+	"os"
 )
 
 type Furniture struct {
@@ -27,7 +28,7 @@ func CreateFurniture() []Furniture {
 }
 
 func InsertInFurniture(furniture []Furniture, conn pgx.Conn) {
-	for index := 0; index < 5; index++ {
+	for index := 0; index < len(furniture); index++ {
 		bd, err := conn.Begin(context.Background())
 		if err != nil {
 			fmt.Println(err)
@@ -36,5 +37,21 @@ func InsertInFurniture(furniture []Furniture, conn pgx.Conn) {
 		bd.Exec(context.Background(), "insert into furniture(name, width, length, height, material, color) "+
 			"values ($1, $2, $3, $4, $5, $6)", furniture[index].Name, furniture[index].Width, furniture[index].Length, furniture[index].Height, furniture[index].Material, furniture[index].Color)
 		bd.Commit(context.Background())
+	}
+}
+
+func ShowFurniture(conn pgx.Conn) {
+	var name, width, lenth, height, material, color string
+	rows, err := conn.Query(context.Background(), "select name, width, length, height, material, color from furniture")
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "QueryRow failed: %v\n", err)
+		os.Exit(1)
+	} else {
+		print("\n         NAME\n" +
+			"        ______________________________________________________________________\n")
+		for rows.Next() {
+			rows.Scan(&name, &width, &lenth, &height, &material, &color)
+			fmt.Printf("%12s %12s %12s %12s %12s %12s\n", name, width, lenth, height, material, color)
+		}
 	}
 }

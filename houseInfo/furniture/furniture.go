@@ -56,7 +56,7 @@ func ShowFurniture(conn pgx.Conn) {
 		fmt.Fprintf(os.Stderr, "QueryRow failed: %v\n", err)
 		os.Exit(1)
 	} else {
-		print("\n              NAME         WIDTH      LENGTH     HEIGHT      MATERIAL     COLOR\n" +
+		print("\n                NAME      WIDTH      LENGTH     HEIGHT      MATERIAL     COLOR\n" +
 			"        _________________________________________________________________________\n")
 		for rows.Next() {
 			rows.Scan(&name, &width, &length, &height, &material, &color)
